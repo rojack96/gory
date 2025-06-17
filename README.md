@@ -18,7 +18,7 @@
 You can install `gory` by building the Go project:
 
 ```bash
-go install github.com/yourusername/gory/cmd/gory@latest
+go install github.com/rojack96/gory/cmd/gory@latest
 ```
 
 Make sure your `$GOPATH/bin` is in your `PATH`.

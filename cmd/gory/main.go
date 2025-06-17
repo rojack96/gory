@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rojack96/gory/workers"
+	"github.com/rojack96/gory/pkg/workers"
 
 	"github.com/charmbracelet/huh"
 	"github.com/rojack96/treje"

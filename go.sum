@@ -61,8 +61,6 @@ github.com/muesli/termenv v0.16.0/go.mod h1:ZRfOIKPFDYQoDFF4Olj7/QJbW60Ol/kL1pU3
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
 github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
-github.com/rojack96/treje v0.0.0-20250425194812-c40a78ad4ef0 h1:wm/FaH+5L0Uo/0SdjLRK6+GroVhTlW6hii/h5e35YAA=
-github.com/rojack96/treje v0.0.0-20250425194812-c40a78ad4ef0/go.mod h1:6T/58hMyALoiffZ6iI1GVilc1RJt3WgTzexnswRXtDM=
 github.com/rojack96/treje v0.1.0 h1:hU4082kYygkbDknXYTSL+ucceke6g+9LBxBIudqw4HM=
 github.com/rojack96/treje v0.1.0/go.mod h1:6T/58hMyALoiffZ6iI1GVilc1RJt3WgTzexnswRXtDM=
 github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e h1:JVG44RsyaB9T2KIHavMF/ppJZNG9ZpyihvCd0w101no=
