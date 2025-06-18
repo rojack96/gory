@@ -46,6 +46,11 @@ func form(options []huh.Option[string]) (string, bool) {
 		err     error
 	)
 
+	if len(options) == 0 {
+		fmt.Println("No commands found in history.")
+		return "", false
+	}
+
 	form := huh.NewSelect[string]().
 		Title("Choose command to run:").
 		Options(options...).
@@ -70,9 +75,10 @@ func form(options []huh.Option[string]) (string, bool) {
 
 func main() {
 	var (
-		command string
-		run     bool
-		err     error
+		commands []huh.Option[string]
+		command  string
+		run      bool
+		err      error
 	)
 
 	system := workers.System{}
@@ -84,7 +90,12 @@ func main() {
 
 	fr := workers.FlagReader()
 
-	if command, run = form(getCommands(system, fr)); !run {
+	if commands = getCommands(system, fr); len(commands) == 0 {
+		fmt.Println("No commands found in history.")
+		return
+	}
+
+	if command, run = form(commands); !run {
 		fmt.Println("Bye bye 👋")
 		return
 	}
