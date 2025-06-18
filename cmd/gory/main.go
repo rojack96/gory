@@ -11,32 +11,23 @@ import (
 	"github.com/rojack96/treje/set/types"
 )
 
-// Esempio d'uso
-func main() {
+// returns a list of unique commands from the system's command history
+func getCommands(system workers.System, fr workers.FlagReaderStruct) []huh.Option[string] {
 	var (
-		result  []huh.Option[string]
-		command string
-		run     bool
+		result []huh.Option[string]
 	)
 
-	fr := workers.FlagReader()
 	listOfUniqueCommand, _ := treje.NewSet().String()
 
-	commands, err := workers.ReadBashHistory()
-	if err != nil {
-		fmt.Printf("Error reading bash history: %v", err)
-		return
-	}
-
-	for i, _ := range commands {
-		listOfUniqueCommand.Add(types.Str(commands[i]))
+	for i := range system.Commands {
+		listOfUniqueCommand.Add(types.Str(system.Commands[i]))
 	}
 
 	listOfCommand, _ := listOfUniqueCommand.ToSlice()
 	listOfCommandToView := listOfCommand
 
 	if fr.Search == "" {
-		listOfCommandToView = listOfCommand[len(listOfCommand)-fr.Number:]
+		listOfCommandToView = workers.LastNCommands(listOfCommand, fr.Number)
 	}
 
 	for _, cmd := range listOfCommandToView {
@@ -45,29 +36,60 @@ func main() {
 		}
 	}
 
+	return result
+}
+
+func form(options []huh.Option[string]) (string, bool) {
+	var (
+		command string
+		run     bool
+		err     error
+	)
+
 	form := huh.NewSelect[string]().
 		Title("Choose command to run:").
-		Options(result...).
+		Options(options...).
 		Value(&command)
 
 	if err = form.Run(); err != nil {
 		fmt.Println("Error running select:", err)
-		return
+		return "", false
 	}
 
-	test := huh.NewConfirm().
-		Title(fmt.Sprintf(`Are you sure to run "%s"?`, command)).
+	confirm := huh.NewConfirm().
+		Title(`Are you sure to run "` + command + `"?`).
 		Value(&run)
 
-	if err = test.Run(); err != nil {
+	if err = confirm.Run(); err != nil {
 		fmt.Println("Error running confirmation:", err)
+		return "", false
+	}
+
+	return command, run
+}
+
+func main() {
+	var (
+		command string
+		run     bool
+		err     error
+	)
+
+	system := workers.System{}
+
+	if err = system.ReadHistory(); err != nil {
+		fmt.Println("error reading history file 📂❌")
 		return
 	}
 
-	if run {
-		fmt.Println(command)
-		workers.RunCommand("bash", "-c", command)
+	fr := workers.FlagReader()
+
+	if command, run = form(getCommands(system, fr)); !run {
+		fmt.Println("Bye bye 👋")
+		return
 	}
 
-	return
+	fmt.Println(command)
+	system.RunCommand(command)
+
 }
