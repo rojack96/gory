@@ -1,15 +1,16 @@
 # Gory
 
-`gory` is a CLI tool written in Go that simulates the behavior of the bash `history` command, with added features to simplify searching and interactively executing past commands.
+`gory` is a CLI tool written in Go that simulates the behavior of the shell `history` command, with added features to simplify searching and interactively executing past commands.
 
 ---
 
 ## Key Features
 
-- Reads commands directly from the user’s `.bash_history` file.
-- Allows searching for commands containing a specific string.
-- Allows limiting the number of returned commands.
-- Enables interactive execution of a selected command after a terminal confirmation prompt.
+* Reads commands directly from the user’s `~/.bash_history` or `~/.zsh_history` file.
+* Automatically detects whether you're using Bash or Zsh.
+* Allows searching for commands containing a specific string.
+* Allows limiting the number of returned commands.
+* Enables interactive execution of a selected command after a terminal confirmation prompt.
 
 ---
 
@@ -61,13 +62,21 @@ Make sure your `$GOPATH/bin` is in your `PATH`.
 
 ## Important Note
 
-`gory` reads commands from `~/.bash_history`. To ensure the history is up to date, it is recommended to run:
+`gory` reads from `~/.bash_history` or `~/.zsh_history`, depending on the active shell.
+
+> To ensure your shell history is up to date before using `gory`, it is recommended to run:
+
+For Bash:
 
 ```bash
 history -a
 ```
 
-before using `gory`.
+For Zsh:
+
+```zsh
+fc -W
+```
 
 ---
 
@@ -87,4 +96,4 @@ Pull requests and issues are welcome!
 
 ## License
 
-MIT License
+[MIT License](LICENSE)
