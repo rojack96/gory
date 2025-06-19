@@ -39,7 +39,7 @@ func getCommands(system workers.System, fr workers.FlagReaderStruct) []huh.Optio
 	return result
 }
 
-func form(options []huh.Option[string]) (string, bool) {
+func form(options []huh.Option[string], fr workers.FlagReaderStruct) (string, bool) {
 	var (
 		command string
 		run     bool
@@ -59,6 +59,10 @@ func form(options []huh.Option[string]) (string, bool) {
 	if err = form.Run(); err != nil {
 		fmt.Println("Error running select:", err)
 		return "", false
+	}
+
+	if fr.ReadOnly {
+		return command, true
 	}
 
 	confirm := huh.NewConfirm().
@@ -95,7 +99,7 @@ func main() {
 		return
 	}
 
-	if command, run = form(commands); !run {
+	if command, run = form(commands, fr); !run {
 		fmt.Println("Bye bye 👋")
 		return
 	}
@@ -108,6 +112,8 @@ func main() {
 	// }
 
 	fmt.Println(command)
-	system.RunCommand(command)
+	if !fr.ReadOnly {
+		system.RunCommand(command)
+	}
 
 }
