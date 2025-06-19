@@ -115,6 +115,7 @@ func (s *System) RunCommand(args string) {
 	name := s.Shell
 	cmd := exec.Command(name, "-c", args)
 
+	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
@@ -122,3 +123,24 @@ func (s *System) RunCommand(args string) {
 		fmt.Println("Error running command")
 	}
 }
+
+// func IsDangerousCommand(cmd string) bool {
+// 	dangerousPatterns := []string{
+// 		"rm -rf /",     // distrugge tutto il filesystem
+// 		"rm -rf *",     // elimina tutto nella dir corrente
+// 		"sudo",         // potenzialmente pericoloso
+// 		"mkfs",         // formatta filesystem
+// 		":(){ :|:& };", // fork bomb
+// 		"shutdown",     // spegne il sistema
+// 		"reboot",       // riavvia
+// 	}
+
+// 	for _, pattern := range dangerousPatterns {
+// 		if strings.Contains(cmd, pattern) {
+// 			return true
+// 		}
+// 	}
+
+// 	// eventualmente, regex o controlli più intelligenti
+// 	return false
+// }

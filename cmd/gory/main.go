@@ -100,6 +100,13 @@ func main() {
 		return
 	}
 
+	// if !fr.Unsafe {
+	// 	if workers.IsDangerousCommand(command) {
+	// 		fmt.Println("⚠️ This command is considered unsafe and will not be executed.")
+	// 		return
+	// 	}
+	// }
+
 	fmt.Println(command)
 	system.RunCommand(command)
 
