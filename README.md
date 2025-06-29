@@ -94,6 +94,14 @@ Pull requests and issues are welcome!
 
 ---
 
+## Third-Party Libraries
+
+This project uses the following third-party libraries:
+
+- [charmbracelet/huh](https://github.com/charmbracelet/huh) - MIT License
+
+---
+
 ## License
 
 [MIT License](LICENSE)
