@@ -14,7 +14,8 @@ import (
 // returns a list of unique commands from the system's command history
 func getCommands(system workers.System, fr workers.FlagReaderStruct) []huh.Option[string] {
 	var (
-		result []huh.Option[string]
+		result           []huh.Option[string]
+		filteredCommands []string
 	)
 
 	listOfUniqueCommand, _ := treje.NewSet().String()
@@ -25,10 +26,17 @@ func getCommands(system workers.System, fr workers.FlagReaderStruct) []huh.Optio
 
 	listOfCommand, _ := listOfUniqueCommand.ToSlice()
 	listOfCommandToView := listOfCommand
-
-	if fr.Search == "" {
-		listOfCommandToView = workers.LastNCommands(listOfCommand, fr.Number)
+	// filter command if search is provided
+	if fr.Search != "" {
+		for _, cmd := range listOfCommand {
+			if strings.Contains(cmd, fr.Search) {
+				filteredCommands = append(filteredCommands, cmd)
+			}
+		}
+		listOfCommandToView = filteredCommands
 	}
+
+	listOfCommandToView = workers.LastNCommands(listOfCommandToView, fr.Number)
 
 	for _, cmd := range listOfCommandToView {
 		if strings.Contains(cmd, fr.Search) {
@@ -63,6 +71,10 @@ func form(options []huh.Option[string], fr workers.FlagReaderStruct) (string, bo
 
 	if fr.ReadOnly {
 		return command, true
+	}
+
+	if fr.Modify {
+		huh.NewInput().Value(&command).Run()
 	}
 
 	confirm := huh.NewConfirm().
