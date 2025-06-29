@@ -39,6 +39,9 @@ Make sure your `$GOPATH/bin` is in your `PATH`.
 * `--read-only`
   Not execute commands, just show them.
 
+* `-m`, `--modify`
+  Allow the user to modify the selected command.
+
 ---
 
 ### Examples
