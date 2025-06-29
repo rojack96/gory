@@ -6,19 +6,18 @@ type FlagReaderStruct struct {
 	Number int
 	Search string
 	//Unsafe bool
-	//Copy   bool
+	ReadOnly bool
 }
 
 // FlagReader reads command line flags.
 func FlagReader() FlagReaderStruct {
 	var (
-		number *int    = flag.Int("number", 10, "Number of commands to show")
-		n      *int    = flag.Int("n", 10, "Number of commands to show")
-		search *string = flag.String("search", "", "Search for a specific command in the history")
-		s      *string = flag.String("s", "", "Search for a specific command in the history")
+		number   *int    = flag.Int("number", 10, "Number of commands to show")
+		n        *int    = flag.Int("n", 10, "Number of commands to show")
+		search   *string = flag.String("search", "", "Search for a specific command in the history")
+		s        *string = flag.String("s", "", "Search for a specific command in the history")
+		readOnly *bool   = flag.Bool("read-only", false, "Not execute commands, just show them")
 		//unsafe *bool   = flag.Bool("unsafe", false, "Run unsafe commands")
-		//copy   *bool   = flag.Bool("copy", false, "Copy the command on clipboard")
-		//c      *bool   = flag.Bool("c", false, "Copy the command on clipboard")
 	)
 
 	flag.Parse()
@@ -33,16 +32,11 @@ func FlagReader() FlagReaderStruct {
 		finalSearch = *s
 	}
 
-	// finalCopy := *copy
-	// if !*c {
-	// 	finalCopy = *c
-	// }
-
 	return FlagReaderStruct{
-		Number: finalNumber,
-		Search: finalSearch,
+		Number:   finalNumber,
+		Search:   finalSearch,
+		ReadOnly: *readOnly,
 		//Unsafe: *unsafe,
-		//Copy:   finalCopy,
 	}
 
 }

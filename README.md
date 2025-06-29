@@ -36,6 +36,9 @@ Make sure your `$GOPATH/bin` is in your `PATH`.
 * `-n`, `--number <num>`
   Limit the number of displayed commands to `<num>`.
 
+* `--read-only`
+  Not execute commands, just show them.
+
 ---
 
 ### Examples
